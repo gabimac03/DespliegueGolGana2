@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import "../style/MisCanchas.css"
 
 const MisCanchas = () => {
     const { token, user } = useAuth();
@@ -89,7 +90,7 @@ const MisCanchas = () => {
     };
 
     return (
-        <div>
+        <div className="mis-canchas-container">
             <h2>{editando ? "Editar Cancha" : "Crear Nueva Cancha"}</h2>
             <form onSubmit={handleSubmit}>
                 <input

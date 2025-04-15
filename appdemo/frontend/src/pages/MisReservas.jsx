@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getToken } from "../services/authService";
+import "../style/MisReservas.css";
 
 const MisReservas = () => {
     const [reservas, setReservas] = useState([]);
@@ -48,7 +49,7 @@ const MisReservas = () => {
     };
 
     return (
-        <div>
+        <div className="reservas-container">
             <h2>Mis Reservas</h2>
             <form onSubmit={handleSubmit}>
                 <input type="text" name="IDCancha" placeholder="ID de la Cancha" onChange={handleChange} required />

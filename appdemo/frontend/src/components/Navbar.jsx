@@ -74,9 +74,6 @@ const Navbar = () => {
                     <Link to="/predios" className={isActive("/predios")}>
                       Mis Predios
                     </Link>
-                    <Link to="/crear-cancha" className={isActive("/crear-cancha")}>
-                      Crear Cancha
-                    </Link>
                     <Link to="/mis-canchas" className={isActive("/mis-canchas")}>
                       Mis Canchas
                     </Link>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../style/CrearCancha.css";
 
 const CrearCancha = () => {
     const { token, user } = useAuth(); // Para obtener el token y verificar tipo de usuario
@@ -58,7 +59,7 @@ const CrearCancha = () => {
     };
 
     return (
-        <div>
+        <div className="crear-cancha-container">
             <h2>Crear Cancha</h2>
             <form onSubmit={handleSubmit}>
                 <input

@@ -1,59 +1,77 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../style/PredioDetalle.css"; // Importa el archivo CSS
 
 const PredioDetalle = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  
   const [predio, setPredio] = useState(null);
   const [canchas, setCanchas] = useState([]);
-
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const predioRes = await axios.get(`http://localhost:5000/api/predios/${id}`);
         setPredio(predioRes.data);
-
+        
         const canchasRes = await axios.get(`http://localhost:5000/api/predios/${id}/canchas`);
         setCanchas(canchasRes.data);
       } catch (error) {
         console.error("Error al obtener datos del predio:", error);
+      } finally {
+        setLoading(false);
       }
     };
-
+    
     fetchData();
   }, [id]);
-
+  
   const handleReservar = (cancha) => {
     navigate(`/reservar/${cancha.IDCancha}`, {
       state: { cancha }
     });
   };
-
+  
+  if (loading) {
+    return <div className="predio-detalle-container cargando">Cargando información del predio...</div>;
+  }
+  
   return (
-    <div className="p-4">
+    <div className="predio-detalle-container">
       {predio && (
         <>
-          <h2 className="text-2xl font-bold">{predio.NombrePredio}</h2>
-          <p className="text-gray-600 mb-4">Ubicación: {predio.Ubicacion}</p>
-
-          <h3 className="text-xl font-semibold">Canchas disponibles</h3>
-          <ul className="space-y-2">
-            {canchas.map((cancha) => (
-              <li key={cancha.IDCancha} className="border p-2 rounded shadow">
-                <p><strong>Nombre:</strong> {cancha.NombreCancha}</p>
-                <p><strong>Capacidad:</strong> {cancha.Capacidad} personas</p>
-                <p><strong>Disciplina:</strong> {cancha.Disciplina}</p>
-                <button
-                  className="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
-                  onClick={() => handleReservar(cancha)}
-                >
-                  Reservar
-                </button>
-              </li>
-            ))}
-          </ul>
+          <h2 className="predio-titulo">{predio.NombrePredio}</h2>
+          <p className="predio-ubicacion">Ubicación: {predio.Ubicacion}</p>
+          
+          <div className="predio-info">
+            {/* Puedes agregar más información del predio aquí si lo deseas */}
+            <p><strong>Teléfono:</strong> {predio.Telefono || 'No disponible'}</p>
+            <p><strong>Horario:</strong> {predio.Horario || 'No disponible'}</p>
+          </div>
+          
+          <h3 className="canchas-titulo">Canchas disponibles</h3>
+          {canchas.length > 0 ? (
+            <ul className="canchas-lista">
+              {canchas.map((cancha) => (
+                <li key={cancha.IDCancha} className="cancha-item">
+                  <p><strong>Nombre:</strong> {cancha.NombreCancha}</p>
+                  <p><strong>Capacidad:</strong> {cancha.Capacidad} personas</p>
+                  <p><strong>Disciplina:</strong> {cancha.Disciplina}</p>
+                  <button
+                    className="btn-reservar"
+                    onClick={() => handleReservar(cancha)}
+                  >
+                    Reservar
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="sin-canchas">No hay canchas disponibles para este predio.</p>
+          )}
         </>
       )}
     </div>

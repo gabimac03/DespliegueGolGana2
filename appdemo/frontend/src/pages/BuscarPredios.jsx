@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getCoordinatesFromAddress } from "../services/geoService";
 import axios from "axios";
+import "../style/BuscarPredios.css"; // Importar el CSS
 
 // Componentes
 import BuscadorDireccion from "../components/buscarPredios/BuscadorDireccion";
@@ -12,11 +13,11 @@ const BuscarPredios = () => {
     const [predios, setPredios] = useState([]);
     const [coordenadas, setCoordenadas] = useState(null);
     const [distancia, setDistancia] = useState(10);
-
+    
     const buscar = async (input, desdeCoordenadas = false) => {
         try {
             let lat, lng;
-    
+            
             if (desdeCoordenadas) {
                 lat = input.lat;
                 lng = input.lng;
@@ -25,9 +26,9 @@ const BuscarPredios = () => {
                 lat = coords.lat;
                 lng = coords.lng;
             }
-    
+            
             setCoordenadas({ lat, lng });
-    
+            
             const response = await axios.get(`http://localhost:5000/api/predios/cercanos?lat=${lat}&lng=${lng}&distancia=${distancia}`);
             setPredios(response.data);
         } catch (error) {
@@ -35,17 +36,22 @@ const BuscarPredios = () => {
         }
     };
     
-
     return (
-        <div>
+        <div className="buscar-predios-container">
             <h2>Buscar Predios</h2>
-            <BuscadorDireccion onBuscar={buscar} />
-            <FiltroDistancia distancia={distancia} setDistancia={setDistancia} />
-
+            <div className="buscador-seccion">
+                <BuscadorDireccion onBuscar={buscar} />
+            </div>
+            <div className="filtro-distancia">
+                <FiltroDistancia distancia={distancia} setDistancia={setDistancia} />
+            </div>
+            
             {coordenadas && (
-                <Mapa lat={coordenadas.lat} lng={coordenadas.lng} predios={predios} />
+                <div className="mapa-container">
+                    <Mapa lat={coordenadas.lat} lng={coordenadas.lng} predios={predios} />
+                </div>
             )}
-
+            
             <ListaPredios predios={predios} />
         </div>
     );

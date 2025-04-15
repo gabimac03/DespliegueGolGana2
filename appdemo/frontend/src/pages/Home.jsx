@@ -11,9 +11,6 @@ const Home = () => {
           Tu plataforma integral para la gestión y reserva de predios agrícolas. 
           Simplifica tus operaciones, optimiza tus recursos y maximiza tu productividad.
         </p>
-        <Link to="/register" className="cta-button">
-          Comenzar ahora
-        </Link>
       </section>
 
       <section className="features-section">
