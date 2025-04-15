@@ -91,6 +91,19 @@ const MisCanchas = () => {
 
     return (
         <div className="mis-canchas-container">
+            <h3>Mis Canchas</h3>
+            <ul>
+                {canchas.map((cancha) => (
+                    <li key={cancha.IDCancha}>
+                        <strong>{cancha.NombreCancha}</strong> - {cancha.NombreDisciplina} - ${cancha.Precio}
+                        <br />
+                        Capacidad: {cancha.Capacidad}, Horario: {cancha.HorarioDisponible}
+                        <br />
+                        <button onClick={() => handleEditar(cancha)}>Editar</button>
+                        <button onClick={() => handleEliminar(cancha.IDCancha)}>Eliminar</button>
+                    </li>
+                ))}
+            </ul>
             <h2>{editando ? "Editar Cancha" : "Crear Nueva Cancha"}</h2>
             <form onSubmit={handleSubmit}>
                 <input
@@ -137,19 +150,6 @@ const MisCanchas = () => {
             </form>
 
             <hr />
-            <h3>Mis Canchas</h3>
-            <ul>
-                {canchas.map((cancha) => (
-                    <li key={cancha.IDCancha}>
-                        <strong>{cancha.NombreCancha}</strong> - {cancha.NombreDisciplina} - ${cancha.Precio}
-                        <br />
-                        Capacidad: {cancha.Capacidad}, Horario: {cancha.HorarioDisponible}
-                        <br />
-                        <button onClick={() => handleEditar(cancha)}>Editar</button>
-                        <button onClick={() => handleEliminar(cancha.IDCancha)}>Eliminar</button>
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 };

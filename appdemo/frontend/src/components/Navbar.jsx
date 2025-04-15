@@ -62,9 +62,9 @@ const Navbar = () => {
               </li>
 
               {user.tipo === "empleado" ? (
-                <li className="dropdown">
-                  <div className="dropdown-toggle">Administración</div>
-                  <div className="dropdown-menu">
+                <li className="admin-dropdown">
+                  <div className="admin-dropdown-toggle">Administración</div>
+                  <div className="admin-dropdown-menu">
                     <Link to="/reservas-admin" className={isActive("/reservas-admin")}>
                       Gestionar Reservas
                     </Link>
