@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../style/CrearPredio.css";
 
 const CrearPredio = () => {
     const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ const CrearPredio = () => {
     };
 
     return (
-        <div>
+        <div className="crear-predio-container"> 
             <h2>Crear Predio</h2>
             <form onSubmit={handleSubmit}>
                 <input

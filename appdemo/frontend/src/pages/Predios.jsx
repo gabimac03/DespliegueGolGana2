@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import "../style/Predios.css";
 
 const Predios = () => {
     const { token, user } = useAuth();
@@ -52,7 +53,7 @@ const Predios = () => {
     }, [token, user]);
 
     return (
-        <div>
+        <div className="predios-container">
             <h2>Mi Predio</h2>
 
             {/* Mostrar formulario si no tiene predio */}
