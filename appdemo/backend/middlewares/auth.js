@@ -24,8 +24,13 @@ const verificarToken = (req, res, next) => {
 
         // Consultar el tipo de usuario en la base de datos usando el ID del usuario decodificado
         db.query("SELECT Tipo FROM Usuarios WHERE IDUsuario = ?", [decoded.id], (err, results) => {
-            if (err) return res.status(500).json({ error: "Error obteniendo el rol del usuario" });
-            if (results.length === 0) return res.status(404).json({ error: "Usuario no encontrado" });
+            if (err) {
+                console.error("❌ Error al consultar la base de datos:", err);
+                return res.status(500).json({ error: "Error obteniendo el rol del usuario" });
+            }
+            if (results.length === 0) {
+                return res.status(404).json({ error: "Usuario no encontrado" });
+            }
 
             // Almacenar la información del usuario decodificado en la solicitud
             req.usuario = { id: decoded.id, tipo: results[0].Tipo };
@@ -33,6 +38,13 @@ const verificarToken = (req, res, next) => {
         });
 
     } catch (err) {
+        // Manejar error de token expirado
+        if (err.name === 'TokenExpiredError') {
+            console.error("❌ Token expirado:", err);
+            return res.status(401).json({ error: 'Token expirado. Por favor, vuelve a iniciar sesión.' });
+        }
+
+        // Manejar otros errores de token
         console.error("❌ Error al verificar el token:", err);
         return res.status(400).json({ error: 'Token inválido' });
     }

@@ -5,14 +5,19 @@ const {
     getTodasLasReservas,
     createReserva,
     confirmarReserva,
-    cancelarReserva
+    cancelarReserva, 
+    getReservasPorCanchaYSemana
 } = require("../controllers/reservas.controllers");
 
 const router = express.Router();
+const reservaController = require("../controllers/reservas.controllers");
 
 // Rutas para clientes (requieren autenticación)
 router.get("/", verificarToken, getReservas);
 router.post("/", verificarToken, createReserva);
+router.get('/canchas/:id/semana', getReservasPorCanchaYSemana);
+
+
 
 // Rutas para empleados (requieren autenticación y tipo de usuario 'empleado')
 router.get("/admin", verificarToken, getTodasLasReservas);

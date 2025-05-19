@@ -6,32 +6,25 @@ exports.createPredio = (req, res) => {
     const IDUsuario = req.usuario.id;
     const tipoUsuario = req.usuario.tipo;
 
-    if (tipoUsuario !== "empleado") {
-        return res.status(403).json({ error: "Solo los empleados pueden crear predios." });
+    // Verificar si el usuario es un empleado o administrador
+    if (tipoUsuario !== "empleado" && tipoUsuario !== "admin") {
+        return res.status(403).json({ error: "Solo los empleados y administradores pueden crear predios." });
     }
 
-    // Verificar si ya tiene un predio asignado
-    db.query("SELECT IDPredio FROM Empleados WHERE IDUsuario = ?", [IDUsuario], (err, result) => {
-        if (err) return res.status(500).json({ error: "Error al verificar el empleado." });
+    // Insertar nuevo predio
+    db.query(
+        "INSERT INTO Predios (NombrePredio, Ubicacion, Latitud, Longitud) VALUES (?, ?, ?, ?)",
+        [NombrePredio, Ubicacion, Latitud, Longitud],
+        (err, result) => {
+            if (err) {
+                console.error("❌ Error al insertar predio:", err);
+                return res.status(500).json({ error: "Error al crear el predio." });
+            }
 
-        const empleado = result[0];
-        if (empleado && empleado.IDPredio) {
-            return res.status(400).json({ error: "Ya tienes un predio asignado." });
-        }
+            const nuevoIDPredio = result.insertId;
 
-        // Insertar nuevo predio
-        db.query(
-            "INSERT INTO Predios (NombrePredio, Ubicacion, Latitud, Longitud) VALUES (?, ?, ?, ?)",
-            [NombrePredio, Ubicacion, Latitud, Longitud],
-            (err, result) => {
-                if (err) {
-                    console.error("❌ Error al insertar predio:", err);
-                    return res.status(500).json({ error: "Error al crear el predio." });
-                }
-
-                const nuevoIDPredio = result.insertId;
-
-                // Asociar al empleado
+            // Si el usuario es un empleado, asociar el predio a su cuenta
+            if (tipoUsuario === "empleado") {
                 db.query(
                     "UPDATE Empleados SET IDPredio = ? WHERE IDUsuario = ?",
                     [nuevoIDPredio, IDUsuario],
@@ -41,17 +34,19 @@ exports.createPredio = (req, res) => {
                         res.json({ message: "✅ Predio creado y asociado correctamente." });
                     }
                 );
+            } else {
+                res.json({ message: "✅ Predio creado correctamente." });
             }
-        );
-    });
+        }
+    );
 };
 
 // Obtener todos los predios
 exports.getPredios = (req, res) => {
     db.query("SELECT * FROM Predios", (err, results) => {
         if (err) return res.status(500).json({ error: "Error obteniendo predios." });
-
-        res.json(results);
+        console.log("Resultados:", results); // Asegúrate de que se están devolviendo todos los predios
+        res.json(results); // Devuelve todos los predios
     });
 };
 
@@ -145,7 +140,6 @@ exports.getPrediosCercanos = (req, res) => {
     });
 };
 
-
 exports.getMiPredio = (req, res) => {
     const IDUsuario = req.usuario.id;
 
@@ -201,4 +195,3 @@ exports.getPrediosConCanchas = (req, res) => {
         res.json(Object.values(prediosMap));
     });
 };
-

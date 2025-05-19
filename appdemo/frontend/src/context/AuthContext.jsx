@@ -1,4 +1,3 @@
-// context/AuthContext.js
 import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -13,8 +12,14 @@ export const AuthProvider = ({ children }) => {
         const storedUser = localStorage.getItem("user");
 
         if (storedToken && storedUser) {
-            setToken(storedToken);
-            setUser(JSON.parse(storedUser));
+            // Verificar si el token ha expirado
+            const decodedToken = JSON.parse(atob(storedToken.split('.')[1])); // Decodificar el token JWT
+            if (decodedToken.exp * 1000 < Date.now()) { // Verificar si está expirado
+                logout(); // Si está expirado, cerrar sesión
+            } else {
+                setToken(storedToken);
+                setUser(JSON.parse(storedUser));
+            }
         }
 
         setLoading(false); // ✅ Marcar que terminó de cargar
@@ -42,4 +47,3 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-

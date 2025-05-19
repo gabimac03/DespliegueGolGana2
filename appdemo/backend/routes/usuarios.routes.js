@@ -16,12 +16,13 @@ router.get("/perfil", verificarToken, (req, res) => {
         "SELECT IDUsuario, Nombre, Telefono, Correo, Tipo FROM Usuarios WHERE IDUsuario = ?", 
         [userId], 
         (err, results) => {
-            if (err) return res.status(500).json({ error: "Error obteniendo el perfil del usuario" });
-            if (results.length === 0) return res.status(404).json({ error: "Usuario no encontrado" });
+            if (err) return res.status(500).json({ message: "Error obteniendo el perfil del usuario" });
+            if (results.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
 
             res.json(results[0]);
         }
     );
 });
+
 
 module.exports = router;

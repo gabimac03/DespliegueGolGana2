@@ -1,4 +1,3 @@
-// src/pages/CrearCancha.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -6,20 +5,21 @@ import { useNavigate } from "react-router-dom";
 import "../style/CrearCancha.css";
 
 const CrearCancha = () => {
-    const { token, user } = useAuth(); // Para obtener el token y verificar tipo de usuario
+    const { token } = useAuth();
     const navigate = useNavigate();
 
-    // Estados para las disciplinas y el formulario de la cancha
     const [disciplinas, setDisciplinas] = useState([]);
+    const [predios, setPredios] = useState([]);
+
     const [formData, setFormData] = useState({
         NombreCancha: "",
         Capacidad: "",
         Precio: "",
         HorarioDisponible: "",
         IDDisciplina: "",
+        IDPredio: "",
     });
 
-    // Cargar disciplinas desde el backend
     useEffect(() => {
         const fetchDisciplinas = async () => {
             try {
@@ -29,10 +29,20 @@ const CrearCancha = () => {
                 console.error("Error al obtener disciplinas", error);
             }
         };
+
+        const fetchPredios = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/predios");
+                setPredios(response.data);
+            } catch (error) {
+                console.error("Error al obtener predios", error);
+            }
+        };
+
         fetchDisciplinas();
+        fetchPredios();
     }, []);
 
-    // Manejo de cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
@@ -41,17 +51,16 @@ const CrearCancha = () => {
         }));
     };
 
-    // Manejo de la creación de la cancha
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await axios.post("http://localhost:5000/api/canchas", formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Se pasa el token en la cabecera
+                    Authorization: `Bearer ${token}`,
                 },
             });
             alert("Cancha creada con éxito");
-            navigate("/"); // Redirige al panel de administración o alguna otra página
+            navigate("/");
         } catch (error) {
             console.error("Error al crear la cancha", error);
             alert("Error al crear la cancha");
@@ -92,6 +101,19 @@ const CrearCancha = () => {
                     placeholder="Horario disponible"
                     required
                 />
+                <select
+                    name="IDPredio"
+                    value={formData.IDPredio}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="">Seleccione un predio</option>
+                    {predios.map((predio) => (
+                        <option key={predio.IDPredio} value={predio.IDPredio}>
+                            {predio.NombrePredio}
+                        </option>
+                    ))}
+                </select>
                 <select
                     name="IDDisciplina"
                     value={formData.IDDisciplina}

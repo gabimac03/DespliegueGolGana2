@@ -14,6 +14,37 @@ exports.getReservas = (req, res) => {
     });
 };
 
+// Obtener reservas confirmadas de una cancha en una semana
+exports.getReservasPorCanchaYSemana = (req, res) => {
+    const { id } = req.params;
+    const { inicio } = req.query;
+
+    const fechaInicio = new Date(inicio);
+    const fechaFin = new Date(fechaInicio);
+    fechaFin.setDate(fechaInicio.getDate() + 7); // hasta el domingo
+
+    const sql = `
+    SELECT DATE(FechaReserva) AS FechaReserva, HoraReserva 
+    FROM Reservas 
+    WHERE IDCancha = ? 
+      AND FechaReserva BETWEEN ? AND ?
+      AND EstadoReserva = 'Confirmada'
+    `;
+
+
+    db.query(
+        sql,
+        [id, fechaInicio.toISOString().split("T")[0], fechaFin.toISOString().split("T")[0]],
+        (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Error al obtener reservas" });
+            }
+            res.json(results);
+        }
+    );
+};
+
 // Obtener reservas de un predio (para empleados)
 exports.getTodasLasReservas = (req, res) => {
     const tipoUsuario = req.usuario.tipo;
@@ -99,3 +130,4 @@ exports.cancelarReserva = (req, res) => {
         }
     );
 };
+
