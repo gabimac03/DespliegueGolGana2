@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 // 🧩 Componentes
 import Navbar from "./components/Navbar";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/protectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import AxiosInterceptor from "./components/AxiosInterceptor";
 
