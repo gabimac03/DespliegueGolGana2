@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: frontend-ingress
   namespace: dev
+  annotations:
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
     - host: frontend.local
@@ -15,7 +17,6 @@ spec:
                 name: frontend-service
                 port:
                   number: 80
-
 
 
 

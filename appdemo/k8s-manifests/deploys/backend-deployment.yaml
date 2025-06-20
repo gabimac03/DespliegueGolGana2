@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: backend-app:v1 # << ACA USAS LA IMAGEN QUE YA CREASTE
+        image: gabimac033/golgana-backend:latest # << ACA USAS LA IMAGEN QUE YA CREASTE
         imagePullPolicy: Never # para que si la cargás a mano en Minikube no intente bajarla de Docker Hub
         ports:
         - containerPort: 5000

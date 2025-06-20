@@ -1,0 +1,33 @@
+name: Build and Push GolGana Images
+
+on:
+  push:
+    branches:
+      - main  # o 'master', según tu rama principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push backend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./appdemo/backend
+        push: true
+        tags: gabimac033/golgana-backend:latest
+
+    - name: Build and push frontend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./appdemo/frontend
+        push: true
+        tags: gabimac033/golgana-frontend:latest
