@@ -1,33 +1,54 @@
-name: Build and Push GolGana Images
+name: Build and Deploy to GKE
 
 on:
   push:
     branches:
-      - main  # o 'master', según tu rama principal
+      - master
+
+env:
+  PROJECT_ID: proyecto-golgana-cloud
+  GKE_CLUSTER: golgana-cluster
+  GKE_REGION: us-central1
+  GKE_NAMESPACE: dev
+  IMAGE_BACKEND: gabimac033/golgana-backend
+  IMAGE_FRONTEND: gabimac033/golgana-frontend
 
 jobs:
-  build:
+  setup-build-deploy:
+    name: Build & Deploy to GKE
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
-    - name: Build and push backend
-      uses: docker/build-push-action@v5
-      with:
-        context: ./appdemo/backend
-        push: true
-        tags: gabimac033/golgana-backend:latest
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker
 
-    - name: Build and push frontend
-      uses: docker/build-push-action@v5
-      with:
-        context: ./appdemo/frontend
-        push: true
-        tags: gabimac033/golgana-frontend:latest
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_REGION
+
+      - name: Build and push backend image
+        run: |
+          docker build -t $IMAGE_BACKEND:latest ./appdemo/backend
+          docker push $IMAGE_BACKEND:latest
+
+      - name: Build and push frontend image
+        run: |
+          docker build -t $IMAGE_FRONTEND:latest ./appdemo/frontend
+          docker push $IMAGE_FRONTEND:latest
+
+      - name: Deploy to GKE
+        run: |
+          kubectl apply -f appdemo/k8s-manifests/ --recursive
