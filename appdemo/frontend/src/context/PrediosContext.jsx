@@ -11,7 +11,7 @@ export const PrediosProvider = ({ children }) => {
 
     const fetchPredios = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/predios");
+            const res = await axios.get("/api/predios");
             setPredios(res.data);
         } catch (error) {
             console.error("Error cargando predios:", error);

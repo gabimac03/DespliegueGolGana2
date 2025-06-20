@@ -23,10 +23,14 @@ app.use("/api/canchas", canchasRoutes);
 app.use("/api/predios", prediosRoutes);
 app.use("/api/usuarios", usuariosRoutes);
 
+// Ejecutar script SQL si es necesario
+const initDB = require('./config/setupDB');
+initDB();
+
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en el puerto http://frontend.local:${PORT}`);
 });
 
 

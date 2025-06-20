@@ -26,7 +26,7 @@ const FormularioReserva = () => {
   useEffect(() => {
     const obtenerCancha = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/canchas/${id}`);
+        const res = await axios.get(`/api/canchas/${id}`);
         setCancha(res.data);
       } catch {
         setMensaje({ tipo: 'error', texto: 'Error al cargar la información de la cancha.' });
@@ -37,7 +37,7 @@ const FormularioReserva = () => {
     const obtenerReservas = async () => {
       const lunes = dayjs().startOf('week').add(1, 'day').format('YYYY-MM-DD');
       try {
-        const res = await axios.get(`http://localhost:5000/api/reservas/canchas/${id}/semana?inicio=${lunes}`);
+        const res = await axios.get(`http://frontend.local/api/reservas/canchas/${id}/semana?inicio=${lunes}`);
         setReservas(res.data);  // Aquí se cargan las reservas
       } catch (error) {
         setMensaje({ tipo: 'error', texto: 'Error al cargar las reservas.' });
@@ -117,7 +117,7 @@ const FormularioReserva = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/reservas', {
+      await axios.post('http://frontend.local/api/reservas', {
         IDCancha: Number(id),
         FechaReserva: fecha,
         HoraReserva: horario,
@@ -140,7 +140,7 @@ const FormularioReserva = () => {
 
       // Actualizar las reservas de la semana
       const lunes = dayjs().startOf('week').add(1, 'day').format('YYYY-MM-DD');
-      const res = await axios.get(`http://localhost:5000/api/reservas/canchas/${id}/semana?inicio=${lunes}`);
+      const res = await axios.get(`http://frontend.local/api/reservas/canchas/${id}/semana?inicio=${lunes}`);
       setReservas(res.data);
     } catch (error) {
       setMensaje({ tipo: 'error', texto: 'Error al realizar la reserva. Intente nuevamente.' });

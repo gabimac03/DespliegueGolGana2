@@ -13,6 +13,9 @@ RUN npm install
 # Copiar el resto del código fuente
 COPY . .
 
+# Copiar explícitamente el script de creación de tablas (por si se ignora en .dockerignore)
+COPY GolGana.sql ./GolGana.sql
+
 # Exponer el puerto 5000 (usado por la app)
 EXPOSE 5000
 

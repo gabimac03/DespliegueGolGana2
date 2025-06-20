@@ -14,10 +14,10 @@ const PredioDetalle = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const predioRes = await axios.get(`http://localhost:5000/api/predios/${id}`);
+        const predioRes = await axios.get(`http://frontend.local/api/predios/${id}`);
         setPredio(predioRes.data);
         
-        const canchasRes = await axios.get(`http://localhost:5000/api/predios/${id}/canchas`);
+        const canchasRes = await axios.get(`http://frontend.local/api/predios/${id}/canchas`);
         setCanchas(canchasRes.data);
       } catch (error) {
         console.error("Error al obtener datos del predio:", error);

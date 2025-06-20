@@ -9,11 +9,11 @@ const VerPredio = () => {
   const [canchas, setCanchas] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/predios/${id}`)
+    axios.get(`http://frontend.local/api/predios/${id}`)
       .then((res) => setPredio(res.data))
       .catch((err) => console.error("Error al obtener predio", err));
 
-    axios.get(`http://localhost:5000/api/canchas/predios/${id}/canchas`)
+    axios.get(`http://frontend.local/api/canchas/predios/${id}/canchas`)
       .then((res) => setCanchas(res.data))
       .catch((err) => console.error("Error al obtener canchas", err));
   }, [id]);

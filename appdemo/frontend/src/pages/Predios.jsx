@@ -20,7 +20,7 @@ const Predios = () => {
     // Función para obtener todos los predios
     const obtenerPredios = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/predios", {
+            const response = await axios.get("http://frontend.local/api/predios", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             console.log("Predios recibidos:", response.data); // Verifica que recibes un array de predios
@@ -33,7 +33,7 @@ const Predios = () => {
     // Función para obtener el predio del usuario (solo uno)
     const obtenerMiPredio = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/predios", {
+            const response = await axios.get("http://frontend.local/api/predios", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setPredios(response.data); // ✅ corregido: no encierres un array dentro de otro
@@ -50,7 +50,7 @@ const Predios = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/api/predios", formData, {
+            await axios.post("https://frontend.local/api/predios", formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert("✅ Predio creado correctamente");

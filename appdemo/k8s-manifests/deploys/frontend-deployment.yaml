@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
+  namespace: dev
   labels:
     app: frontend
 spec:
@@ -16,6 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: frontend-react:latest
+          image: frontend-app:v1
+          imagePullPolicy: Never
           ports:
             - containerPort: 80

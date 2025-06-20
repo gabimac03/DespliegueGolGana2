@@ -23,7 +23,7 @@ const CrearCancha = () => {
     useEffect(() => {
         const fetchDisciplinas = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/disciplinas");
+                const response = await axios.get("http://frontend.local/api/disciplinas");
                 setDisciplinas(response.data);
             } catch (error) {
                 console.error("Error al obtener disciplinas", error);
@@ -32,7 +32,7 @@ const CrearCancha = () => {
 
         const fetchPredios = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/predios");
+                const response = await axios.get("http://frontend.local/api/predios");
                 setPredios(response.data);
             } catch (error) {
                 console.error("Error al obtener predios", error);
@@ -54,7 +54,7 @@ const CrearCancha = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/api/canchas", formData, {
+            await axios.post("http://frontend.local/api/canchas", formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

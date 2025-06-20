@@ -30,7 +30,7 @@ const Register = () => {
     setSuccess("");
 
     try {
-      await axios.post("http://localhost:5000/api/usuarios", formData);
+      await axios.post("http://frontend.local/api/usuarios", formData);
       setSuccess("Registro exitoso, ahora puedes iniciar sesión.");
       
       // Pequeña pausa para mostrar el mensaje de éxito

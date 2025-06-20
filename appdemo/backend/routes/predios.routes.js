@@ -21,5 +21,6 @@ router.post("/", verificarToken, createPredio);
 router.put("/:id", verificarToken, updatePredio);
 router.delete("/:id", verificarToken, deletePredio);
 
+router.get("/", getPredios);
 module.exports = router;
 

@@ -1,7 +1,5 @@
-// utils/axiosConfig.js
 import axios from "axios";
 
-// Aquí puedes agregar cualquier configuración global de Axios
-axios.defaults.baseURL = "http://localhost:5000"; // Ajusta el URL base de tu API
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 export default axios;
