@@ -3,12 +3,9 @@ kind: Ingress
 metadata:
   name: frontend-ingress
   namespace: dev
-  annotations:
-    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
-    - host: frontend.local
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix

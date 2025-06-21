@@ -5,8 +5,7 @@ metadata:
   namespace: dev
 spec:
   rules:
-    - host: frontend.local
-      http:
+    - http:
         paths:
           - path: /api
             pathType: Prefix
@@ -15,3 +14,4 @@ spec:
                 name: backend-service
                 port:
                   number: 5000
+
