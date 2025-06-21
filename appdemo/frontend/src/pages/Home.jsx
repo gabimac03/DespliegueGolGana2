@@ -7,6 +7,7 @@ const Home = () => {
     <div className="home-container">
       <section className="hero-section">
         <h1>Bienvenido a GolGana Definitivo</h1>
+        <h2>Chupanos bien los huevos Pablito, con cariño SOFT8THEX</h2>
         <p>
           Tu plataforma integral para la gestión y reserva de predios agrícolas. 
           Simplifica tus operaciones, optimiza tus recursos y maximiza tu productividad.
