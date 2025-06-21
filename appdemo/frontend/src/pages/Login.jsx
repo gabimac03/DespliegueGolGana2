@@ -62,7 +62,7 @@ const Login = () => {
         <div className="login-logo">GOLGANA</div>
         <h1 className="login-title">Iniciar Sesión</h1>
         <p className="login-subtitle">
-          Bienvenido de nuevo. Dale registrate papa!!!!Arriba huracan!!!.
+          Bienvenido de nuevo. Accede a tu cuenta para gestionar tus predios y reservas.
         </p>
       </div>
 
