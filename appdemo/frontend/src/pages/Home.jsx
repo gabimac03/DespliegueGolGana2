@@ -50,7 +50,7 @@ const Home = () => {
             "Golgana transformó completamente la forma en que administramos nuestros terrenos. 
             Ahora tenemos todo organizado y accesible desde cualquier dispositivo."
           </p>
-          <p className="testimonial-author">- Carlos Mendoza, Agricultor</p>
+          <p className="testimonial-author">- Martin Lopez, pendejo fumon</p>
         </div>
         
         <div className="testimonial-card">
