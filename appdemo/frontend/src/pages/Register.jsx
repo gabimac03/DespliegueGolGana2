@@ -81,7 +81,7 @@ const Register = () => {
             id="telefono"
             className="form-control"
             name="Telefono"
-            placeholder="Ej: +56 9 1234 5678"
+            placeholder="Ej: +54 9 2616713120"
             value={formData.Telefono}
             onChange={handleChange}
             required
