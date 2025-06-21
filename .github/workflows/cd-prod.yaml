@@ -14,7 +14,7 @@ env:
 
 jobs:
   deploy:
-    name: Deploy to GKE
+    name: Build, Push & Deploy to GKE
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +34,22 @@ jobs:
 
       - name: Configure Docker for GCR
         run: gcloud auth configure-docker
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Backend :latest
+        run: |
+          docker build -t $IMAGE_BACKEND:latest ./appdemo/backend
+          docker push $IMAGE_BACKEND:latest
+
+      - name: Build and Push Frontend :latest
+        run: |
+          docker build -t $IMAGE_FRONTEND:latest ./appdemo/frontend
+          docker push $IMAGE_FRONTEND:latest
 
       - name: Configure kubectl
         run: |
