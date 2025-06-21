@@ -6,20 +6,20 @@ const Home = () => {
   return (
     <div className="home-container">
       <section className="hero-section">
-        <h1>Bienvenido a GolGana Definitivo</h1>
+        <h1>Bienvenido a GolGana - Soft8thex</h1>
         <p>
-          Tu plataforma integral para la gestión y reserva de predios agrícolas. 
-          Simplifica tus operaciones, optimiza tus recursos y maximiza tu productividad.
+          Tu plataforma todo en uno para la gestión y reserva de complejos deportivos. 
+          Haz tus reservas de manera rápida, sencilla y eficiente, optimizando el uso de tus instalaciones.
         </p>
       </section>
 
       <section className="features-section">
         <div className="feature-card">
-          <div className="feature-icon">🌱</div>
-          <h3>Gestión de Predios</h3>
+          <div className="feature-icon">🏟️</div>
+          <h3>Gestión de Complejos Deportivos</h3>
           <p>
-            Administra todos tus predios agrícolas desde un solo lugar. 
-            Registra su ubicación, características y disponibilidad.
+            Administra todos tus complejos deportivos desde un solo lugar. 
+            Registra sus características, disponibilidad y horarios de uso.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ const Home = () => {
           <div className="feature-icon">📊</div>
           <h3>Análisis y Reportes</h3>
           <p>
-            Obtén datos valiosos sobre el uso de tus predios,
+            Obtén datos valiosos sobre el uso de tus complejos deportivos, 
             ocupación y rentabilidad con nuestros reportes personalizados.
           </p>
         </div>
@@ -47,10 +47,10 @@ const Home = () => {
         
         <div className="testimonial-card">
           <p className="testimonial-text">
-            "Golgana transformó completamente la forma en que administramos nuestros terrenos. 
+            "GolGana transformó completamente la forma en que gestionamos nuestras instalaciones deportivas. 
             Ahora tenemos todo organizado y accesible desde cualquier dispositivo."
           </p>
-          <p className="testimonial-author">- Carlos Mendoza, Agricultor</p>
+          <p className="testimonial-author">- Carlos Mendoza, Administrador de Complejos Deportivos</p>
         </div>
         
         <div className="testimonial-card">
@@ -58,7 +58,7 @@ const Home = () => {
             "La facilidad para crear reservas y ver la disponibilidad en tiempo real 
             ha hecho que nuestros procesos sean mucho más eficientes."
           </p>
-          <p className="testimonial-author">- María González, Administradora</p>
+          <p className="testimonial-author">- María González, Coordinadora de Eventos Deportivos</p>
         </div>
       </section>
 
@@ -66,18 +66,18 @@ const Home = () => {
         <h2>Preguntas frecuentes</h2>
         
         <div className="faq-item">
-          <div className="faq-question">¿Cómo puedo registrar un nuevo predio?</div>
+          <div className="faq-question">¿Cómo puedo registrar un nuevo complejo deportivo?</div>
           <p className="faq-answer">
-            Simplemente inicia sesión en tu cuenta, ve a la sección "Mis Predios" y 
-            haz clic en "Agregar nuevo predio". Completa la información requerida y listo.
+            Simplemente inicia sesión en tu cuenta, ve a la sección "Administración" y 
+            haz clic en "Crear Predio". Completa la información requerida y listo.
           </p>
         </div>
         
         <div className="faq-item">
-          <div className="faq-question">¿Puedo gestionar múltiples predios desde una sola cuenta?</div>
+          <div className="faq-question">¿Puedo gestionar múltiples complejos deportivos desde una sola cuenta?</div>
           <p className="faq-answer">
-            ¡Absolutamente! Golgana está diseñado para administrar múltiples predios 
-            desde una sola interfaz, facilitando la gestión completa de tus propiedades agrícolas.
+            ¡Absolutamente! GolGana está diseñado para administrar múltiples complejos deportivos 
+            desde una sola interfaz, facilitando la gestión completa de tus instalaciones.
           </p>
         </div>
         
@@ -92,7 +92,7 @@ const Home = () => {
       </section>
 
       <footer className="footer">
-        <p>© 2025 Golgana - Sistema de Gestión de Predios Agrícolas</p>
+        <p>© 2025 GolGana - Sistema de Gestión y Reserva de Complejos Deportivos</p>
         <p>
           <a href="/terminos">Términos y Condiciones</a> | 
           <a href="/privacidad">Política de Privacidad</a> | 
