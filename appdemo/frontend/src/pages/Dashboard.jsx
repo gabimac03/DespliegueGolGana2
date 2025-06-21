@@ -10,7 +10,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://frontend.local/api/usuarios/perfil", {
+                const response = await axios.get("/api/usuarios/perfil", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUsuario(response.data);

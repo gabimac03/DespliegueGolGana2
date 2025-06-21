@@ -9,13 +9,13 @@ const VerCancha = () => {
   const [cancha, setCancha] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://frontend.local/api/canchas/${id}`)
+    axios.get(`/api/canchas/${id}`)
       .then((res) => setCancha(res.data))
       .catch((err) => console.error("Error al obtener cancha", err));
   }, [id]);
 
   const reservarCancha = () => {
-    navigate(`http://frontend.local/reservar-cancha/${cancha.IDCancha}`);
+    navigate(`/reservar-cancha/${cancha.IDCancha}`);
   };
 
   if (!cancha) return <p>Cargando cancha...</p>;

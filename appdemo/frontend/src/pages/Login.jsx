@@ -24,7 +24,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://frontend.local/api/usuarios/login",
+        "/api/usuarios/login",
         formData
       );
 

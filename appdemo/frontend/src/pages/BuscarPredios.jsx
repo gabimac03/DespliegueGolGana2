@@ -29,7 +29,7 @@ const BuscarPredios = () => {
             
             setCoordenadas({ lat, lng });
             
-            const response = await axios.get(`http://frontend.local/api/predios/cercanos?lat=${lat}&lng=${lng}&distancia=${distancia}`);
+            const response = await axios.get(`/api/predios/cercanos?lat=${lat}&lng=${lng}&distancia=${distancia}`);
             setPredios(response.data);
         } catch (error) {
             console.error("Error buscando predios:", error);

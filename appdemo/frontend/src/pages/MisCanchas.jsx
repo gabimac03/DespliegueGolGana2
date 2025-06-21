@@ -36,7 +36,7 @@ const MisCanchas = () => {
 
     try {
         console.log("🛂 Token enviado al backend:", token);
-        const res = await axios.get("http://frontend.local/api/canchas", {
+        const res = await axios.get("http://34.8.16.245/api/canchas", {
             headers: { Authorization: `Bearer ${token}` },
         });
         setCanchas(res.data);
@@ -60,7 +60,7 @@ const MisCanchas = () => {
 
     const obtenerDisciplinas = async () => {
         try {
-            const res = await axios.get("http://frontend.local/api/disciplinas");
+            const res = await axios.get("/api/disciplinas");
             setDisciplinas(res.data);
         } catch (error) {
             console.error("Error al obtener disciplinas:", error);
@@ -70,7 +70,7 @@ const MisCanchas = () => {
 
     const obtenerPredios = async () => {
         try {
-            const res = await axios.get("http://frontend.local/api/predios"); // API para obtener predios
+            const res = await axios.get("/api/predios"); // API para obtener predios
             setPredios(res.data);
         } catch (error) {
             console.error("Error al obtener predios:", error);
@@ -91,11 +91,11 @@ const MisCanchas = () => {
 
         try {
             if (editando) {
-                await axios.put(`http://frontend.local/api/canchas/${editando}`, formData, {
+                await axios.put(`/api/canchas/${editando}`, formData, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             } else {
-                await axios.post("http://frontend.local/api/canchas", formData, {
+                await axios.post("/api/canchas", formData, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             }
@@ -125,7 +125,7 @@ const MisCanchas = () => {
     const handleEliminar = async (id) => {
         if (confirm("¿Eliminar esta cancha?")) {
             try {
-                await axios.delete(`http://frontend.local/api/canchas/${id}`, {
+                await axios.delete(`/api/canchas/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 obtenerCanchas();

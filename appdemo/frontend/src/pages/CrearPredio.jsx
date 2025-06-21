@@ -21,7 +21,7 @@ const CrearPredio = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://frontend.local/api/predios", formData, {
+            await axios.post("/api/predios", formData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             alert("Predio creado correctamente");

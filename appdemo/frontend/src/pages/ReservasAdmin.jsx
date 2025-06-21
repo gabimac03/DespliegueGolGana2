@@ -15,12 +15,12 @@ const ReservasAdmin = () => {
                 // Verifica si el token está disponible
                 if (!token) {
                     console.error("⚠️ No hay token. El usuario no está autenticado.");
-                    navigate("http://frontend.local/login");  // Redirige al login si no hay token
+                    navigate("/login");  // Redirige al login si no hay token
                     return;
                 }
                 
                 // Realiza la solicitud para obtener las reservas del backend
-                const response = await axios.get("http://frontend.local/api/reservas/admin", {
+                const response = await axios.get("/api/reservas/admin", {
                     headers: { Authorization: `Bearer ${token}` },  // Envia el token en los headers
                 });
                 
@@ -29,7 +29,7 @@ const ReservasAdmin = () => {
                 console.error("❌ Error obteniendo reservas", error);
                 // Si el error es de autenticación (token inválido o expirado), redirige al login
                 if (error.response && error.response.status === 401) {
-                    navigate("http://frontend.local/login");
+                    navigate("http://34.8.16.245/login");
                 }
             }
         };
@@ -42,12 +42,12 @@ const ReservasAdmin = () => {
             // Verifica si el token sigue siendo válido
             if (!token) {
                 console.error("⚠️ No hay token. El usuario no está autenticado.");
-                navigate("http://frontend.local/login");
+                navigate("http://34.8.16.245/login");
                 return;
             }
             
             // Realiza la acción de confirmar o cancelar la reserva
-            await axios.put(`http://frontend.local/api/reservas/${action}/${IDReserva}`, {}, {
+            await axios.put(`http://34.8.16.245/api/reservas/${action}/${IDReserva}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }, // Envía el token en los headers
             });
             

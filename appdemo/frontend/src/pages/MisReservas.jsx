@@ -15,7 +15,7 @@ const MisReservas = () => {
     useEffect(() => {
         const fetchReservas = async () => {
             try {
-                const response = await axios.get("http://frontend.local/api/reservas", {
+                const response = await axios.get("/api/reservas", {
                     headers: { Authorization: `Bearer ${getToken()}` },
                 });
                 setReservas(response.data);
@@ -34,7 +34,7 @@ const MisReservas = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://frontend.local/api/reservas", nuevaReserva, {
+            await axios.post("/api/reservas", nuevaReserva, {
                 headers: { Authorization: `Bearer ${getToken()}` },
             });
             alert("Reserva creada correctamente.");
