@@ -50,7 +50,10 @@ const Home = () => {
             "GolGana transformó completamente la forma en que gestionamos nuestras instalaciones deportivas. 
             Ahora tenemos todo organizado y accesible desde cualquier dispositivo."
           </p>
+
           <p className="testimonial-author">- Carlos Mendoza, Administrador de Complejos</p>
+         
+
         </div>
         
         <div className="testimonial-card">
@@ -58,7 +61,10 @@ const Home = () => {
             "La facilidad para crear reservas y ver la disponibilidad en tiempo real 
             ha hecho que nuestros procesos sean mucho más eficientes."
           </p>
+
           <p className="testimonial-author">- María González, "Dueña al cubo Futbol"</p>
+
+
         </div>
       </section>
 
