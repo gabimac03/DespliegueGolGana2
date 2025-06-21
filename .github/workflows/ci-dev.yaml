@@ -1,7 +1,7 @@
 name: CI - Build and Push Images (DEV)
 
 on:
-  push:
+  pull_request:
     branches:
       - dev
 
