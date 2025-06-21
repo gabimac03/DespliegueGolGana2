@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <section className="hero-section">
-        <h1>Bienvenido a Golgana</h1>
+        <h1>Bienvenido a Gimnasia de Mendoza</h1>
         <p>
           Tu plataforma integral para la gestión y reserva de predios agrícolas. 
           Simplifica tus operaciones, optimiza tus recursos y maximiza tu productividad.
