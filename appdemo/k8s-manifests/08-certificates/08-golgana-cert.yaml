@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: golgana-cert
+  namespace: dev
+spec:
+  domains:
+    - golgana.ar

@@ -5,9 +5,14 @@ metadata:
   namespace: dev
   annotations:
     kubernetes.io/ingress.class: "gce"
+    networking.gke.io/managed-certificates: golgana-cert
 spec:
+  tls:
+    - hosts:
+        - golgana.ar
+      secretName: dummy-secret  # requerido por la sintaxis, aunque GKE no lo use
   rules:
-    - host: golgana.ar  # <<--- AGREGAR ESTO
+    - host: golgana.ar
       http:
         paths:
           - path: /api
@@ -24,6 +29,7 @@ spec:
                 name: frontend-service
                 port:
                   number: 80
+
 
 
 
