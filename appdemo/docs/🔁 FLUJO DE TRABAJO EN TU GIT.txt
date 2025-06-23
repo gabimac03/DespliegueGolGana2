@@ -1,0 +1,82 @@
+🔁 FLUJO DE TRABAJO CON GIT + CI/CD – GOLGANA
+
+🧱 Estructura de ramas
+
+    prod: rama protegida para producción (despliegue automático a Google Cloud con GitHub Actions).
+
+    dev: rama principal de desarrollo continuo (despliega en el entorno dev, build + push imágenes con tag :dev).
+
+    feature/*: ramas temporales para nuevas funcionalidades o fixes, nacen desde dev y se integran mediante Pull Requests.
+
+🔨 PASO A PASO DEL FLUJO
+
+👨‍💻 1. Crear una rama feature
+
+git checkout dev
+git pull origin dev
+git checkout -b feature/nueva-funcionalidad
+
+🧪 2. Hacer cambios, testear localmente o en Minikube (opcional)
+
+git add .
+git commit -m "feat: nuevo módulo de reservas"
+git push --set-upstream origin feature/nueva-funcionalidad
+
+🔁 3. Crear un Pull Request a dev
+
+    Vas a GitHub y creás un PR desde feature/nueva-funcionalidad → dev
+
+    Automáticamente se ejecuta el workflow CI (GitHub Actions):
+
+        Build del frontend y backend
+
+        Push a DockerHub con el tag :dev
+
+        Validación anticipada antes de mergear
+
+✅ 4. Merge a dev
+
+    El equipo revisa y aprueba el PR
+
+    El merge actualiza el entorno dev en GKE:
+
+        Actualización de pods con imágenes :dev
+
+        Ingreso disponible desde dev.golgana.ar
+
+🚀 5. Preparar despliegue a producción
+
+    Se abre un nuevo Pull Request: dev → prod
+
+    Este PR solo lo podés aprobar vos (rama protegida)
+
+    Al aprobar y mergear:
+
+        Se ejecuta el workflow de CD:
+
+            Build de nuevas imágenes con el tag :latest
+
+            Push a DockerHub
+
+            kubectl apply -f a los manifiestos en el cluster GKE
+
+            El entorno prod (golgana.ar) se actualiza
+
+🛡️ Seguridad y gobernanza
+
+    La rama prod está protegida (solo vos podés mergear)
+
+    La rama dev puede tener reglas:
+
+        Revisión obligatoria de PRs
+
+        CI exitoso como condición para merge
+
+📌 Resumen Visual
+
+feature/nueva-funcionalidad
+↓ PR + CI (imágenes :dev)
+dev.golgana.ar (GKE - namespace dev)
+↓ PR aprobado por líder
+prod.golgana.ar (GKE - namespace prod)
+CD → imágenes :latest + deploy automático
