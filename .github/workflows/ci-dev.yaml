@@ -1,4 +1,4 @@
-name: CI - Build and Push Images (DEV)
+name: CI - Build, Push & Deploy (DEV)
 
 on:
   push:
@@ -9,15 +9,33 @@ on:
       - dev
 
 env:
+  PROJECT_ID: proyecto-golgana-cloud
+  GKE_CLUSTER: golgana-cluster
+  GKE_REGION: us-central1
   IMAGE_BACKEND: gabimac033/golgana-backend
   IMAGE_FRONTEND: gabimac033/golgana-frontend
 
 jobs:
-  build:
+  dev-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          install_components: gke-gcloud-auth-plugin
+
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -25,12 +43,22 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Backend
+      - name: Build and Push Backend :dev
         run: |
           docker build -t $IMAGE_BACKEND:dev ./appdemo/backend
           docker push $IMAGE_BACKEND:dev
 
-      - name: Build and Push Frontend
+      - name: Build and Push Frontend :dev
         run: |
           docker build -t $IMAGE_FRONTEND:dev ./appdemo/frontend
           docker push $IMAGE_FRONTEND:dev
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials $GKE_CLUSTER --region $GKE_REGION
+
+      - name: Deploy to GKE dev
+        run: |
+          kubectl apply -f appdemo/k8s-manifests/dev/ --recursive
+          kubectl rollout restart deployment backend -n dev
+          kubectl rollout restart deployment frontend-deployment -n dev
