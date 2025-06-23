@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup
+  namespace: dev
+spec:
+  schedule: "*/3 * * * *"  # Cada 5 minutos (ajustalo según quieras)
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mysql-backup
+            image: mysql:5.7
+            command:
+              - sh
+              - -c
+              - |
+                mysqldump -h mysql -P 3306 -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" > /backup/backup-$(date +\%Y-\%m-\%d-\%H-\%M).sql
+            env:
+              - name: MYSQL_ROOT_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mysql-secret
+                    key: MYSQL_ROOT_PASSWORD
+              - name: MYSQL_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: mysql-secret
+                    key: MYSQL_DATABASE
+            volumeMounts:
+              - name: backup-volume
+                mountPath: /backup
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-volume
+              persistentVolumeClaim:
+                claimName: mysql-pvc
