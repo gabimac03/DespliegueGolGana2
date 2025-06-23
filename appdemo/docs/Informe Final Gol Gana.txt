@@ -1,0 +1,166 @@
+🧩 1. Descripción breve del proyecto
+
+GolGana es una plataforma web full stack que permite a usuarios visualizar, administrar y reservar predios deportivos de forma online y en tiempo real. El proyecto resuelve una problemática común: la dificultad de encontrar canchas deportivas disponibles, administrarlas correctamente y gestionar sus reservas sin errores ni duplicaciones.
+
+Objetivos logrados:
+
+    ✔ Implementar un sistema de reservas deportivas eficiente, escalable y accesible.
+
+    ✔ Automatizar el ciclo de vida de desarrollo, testing y despliegue con GitHub Actions y Docker.
+
+    ✔ Desplegar el sistema en un clúster Kubernetes en Google Cloud, con ambientes separados (dev y prod).
+
+    ✔ Mantener alta disponibilidad y seguridad en el acceso mediante Ingress con SSL.
+
+🏢 2. Contexto del proyecto
+
+El proyecto surge en el marco de la materia Computación en la Nube. Simula el desarrollo de un sistema real solicitado por una empresa que administra múltiples predios deportivos. La necesidad concreta era un sistema online donde usuarios pudieran reservar turnos, y donde los administradores tuvieran visibilidad sobre disponibilidad, estadísticas y datos centralizados.
+
+Se buscó:
+
+    Reemplazar planillas manuales, grupos de WhatsApp y llamadas por un sistema centralizado.
+
+    Reducir la sobrecarga administrativa mediante automatización de notificaciones y reportes.
+
+    Escalar horizontalmente el sistema para múltiples predios y usuarios concurrentes.
+
+🧱 3. Diseño de Alto Nivel (HLD)
+
+🧩 Diagrama funcional
+
+El sistema tiene tres grandes actores:
+
+    Usuario común: puede visualizar predios, ver disponibilidad y reservar.
+
+    Administrador de predios: gestiona sus complejos, horarios y reportes.
+
+    Administrador del sistema: accede a dashboards globales, crea empleados y controla la base.
+
+Los módulos principales:
+
+    Frontend (React): interfaz para reservas, login, administración de canchas, etc.
+
+    Backend (Node.js + Express): API REST que conecta con la base de datos MySQL.
+
+    Base de datos: gestiona usuarios, reservas, predios, horarios, etc.
+
+    CI/CD: automatiza validaciones y despliegues.
+
+    Infraestructura: Kubernetes en Google Cloud Platform (GKE).
+
+📊 Diagramas clave (ver imágenes del informe)
+
+    Diagrama de arquitectura de la aplicación (frontend ↔ backend ↔ DB)
+
+    Diagrama de infraestructura (GKE cluster con 2 namespaces, ingress, servicios, pods)
+
+    Diagrama del flujo CI/CD con pipelines separados para dev y prod
+
+    Diagrama de repositorio y ramas (feature → dev → prod)
+
+🧰 4. Detalle del Proyecto
+
+🧪 Tecnologías empleadas
+Categoría	Herramienta
+Frontend	React + Vite
+Backend	Node.js + Express
+Base de datos	MySQL
+Infraestructura	Google Kubernetes Engine (GKE)
+Contenedores	Docker + DockerHub
+CI/CD	GitHub Actions
+Backup	Kubernetes CronJob
+Seguridad	Secrets, ConfigMaps, SSL por Ingress GCP
+
+🗂️ Detalle de lo desplegado
+
+En cada namespace (dev y prod) se encuentran:
+
+    frontend-deployment → React container desde DockerHub
+
+    backend-deployment → Express API container desde DockerHub
+
+    mysql-deployment → contenedor con volumen persistente PVC
+
+    ConfigMap y Secret para MySQL
+
+    Servicios ClusterIP (backend, frontend, mysql)
+
+    Ingress → expone HTTP/HTTPS según entorno
+
+    CronJob (solo en dev) que realiza backup con mysqldump
+
+🧬 5. Diseño de Bajo Nivel (LLD)
+
+📌 Aplicación:
+
+    React app: ruteo con react-router-dom, consumo de API vía axios, login, dashboards y formularios.
+
+    Backend: Express.js, uso de middleware, autenticación con bcrypt y sesiones, MySQL2.
+
+📌 CI/CD y Pipelines:
+
+    dev branch:
+
+        Cada push dispara un workflow de CI.
+
+        Se construyen imágenes Docker para frontend y backend con tag :dev.
+
+        Se suben a DockerHub.
+
+        Se hace kubectl apply -f a los manifiestos en el namespace dev.
+
+        Ingreso disponible en dev.golgana.ar.
+
+    prod branch:
+
+        Solo se mergea vía Pull Request aprobado por los líderes.
+
+        Se reconstruyen las imágenes con tag :latest.
+
+        Se actualizan los pods en GKE prod.
+
+        Ingreso disponible en golgana.ar.
+
+        Certificado SSL gestionado por GCP.
+
+    Los pipelines están definidos en YAML dentro de .github/workflows/
+
+        ci-dev.yaml → ejecuta build/test y push para dev
+
+        cd-prod.yaml → ejecuta build/test y despliegue para prod
+
+📌 Infraestructura y Ambientes:
+
+    Un solo clúster en GKE con dos namespaces: dev y prod
+
+    Cada namespace tiene su propio Ingress + IP externa
+
+    Dominio personalizado dev.golgana.ar y golgana.ar
+
+    Secrets y ConfigMaps montados como variables de entorno
+
+    Volúmenes persistentes para MySQL (PVC)
+
+🔐 Identidades / roles / acciones:
+
+    Los colaboradores trabajan en ramas feature/*
+
+    DevOps líder aprueba los merges a prod
+
+    GitHub Actions realiza todo el despliegue automático
+
+🛠️ Plan de Backup y Recuperación
+
+    CronJob programado en dev:
+
+        Ejecuta un mysqldump diario de la base MySQL
+
+        Guarda el .sql en /backup (volumen persistente)
+
+    Validado con un pod de prueba que accede al PVC
+
+    Posible futura mejora: subir automáticamente los backups a Google Cloud Storage
+
+✅ Conclusión
+
+GolGana representa una solución sólida, escalable y automatizada para reservas deportivas. El uso de Kubernetes, CI/CD y buenas prácticas de infraestructura permitieron un despliegue profesional accesible desde todo el país.
