@@ -27,6 +27,7 @@ import Reservas from "./pages/MisReservas";
 import ReservasAdmin from "./pages/ReservasAdmin";
 import MisReservas from "./pages/MisReservas";
 import FormularioReserva from "./pages/FormularioReserva";
+import Contacto from "./pages/Contacto";
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -55,6 +56,8 @@ function App() {
                         <Route path="/crear-predio" element={<CrearPredio />} />
                         <Route path="/mis-canchas" element={<MisCanchas />} />
                         <Route path="/reservar/:id" element={<FormularioReserva />} />
+                        <Route path="/contacto" element={<Contacto />} />
+
 
                         {/* 🔒 Rutas protegidas para usuarios autenticados */}
                         <Route element={<ProtectedRoute />}>
