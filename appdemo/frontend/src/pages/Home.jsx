@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <section className="hero-section">
-        <h1>Bienvenido a GolGana</h1>
+        <h1>Bienvenido a GolGana EGI</h1>
         <p>
           Tu plataforma todo en uno para la gestión y reserva de complejos deportivos. 
           Haz tus reservas de manera rápida, sencilla y eficiente, optimizando el uso de tus instalaciones.
